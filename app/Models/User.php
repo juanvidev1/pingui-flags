@@ -27,6 +27,7 @@ class User extends Authenticatable
     protected function casts(): array
     {
         return [
+            'id' => 'string', // this is the default, but we need to be explicit about it since we're using UUIDs
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'two_factor_confirmed_at' => 'datetime',
@@ -36,5 +37,19 @@ class User extends Authenticatable
     public function projects(): HasMany
     {
         return $this->hasMany(Project::class);
+    }
+
+    public function setUuid(): void
+    {
+        $this->attributes['id'] = (string) \Illuminate\Support\Str::uuid();
+    }
+
+    protected static function boot(): void
+    {
+        parent::boot();
+
+        static::creating(function (User $model) {
+            $model->setUuid();
+        });
     }
 }
