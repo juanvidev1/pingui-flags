@@ -12,7 +12,7 @@ export default defineConfig({
         strictPort: true,
         cors: true,
         hmr: {
-            host: '192.168.1.13', // 👈 IP de tu Mac
+            host: '192.168.1.3', // 👈 IP de tu Mac
         },
     },
     plugins: [

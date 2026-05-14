@@ -1,3 +1,5 @@
+import { Head } from '@inertiajs/react';
+
 type User = {
   id: number;
   name: string;
@@ -10,12 +12,15 @@ type Props = {
 
 const Users = ({ users }: Props) => {
   return (
-    <div>
-      <h1 className="text-2xl">Users Page</h1>
-      {users.map((user) => (
-        <p key={user.id}>{user.name}</p>
-      ))}
-    </div>
+    <>
+      <Head title="Users" />
+      <div>
+        <h1 className="text-2xl">Users Page</h1>
+        {users.map((user) => (
+          <p key={user.id}>{user.name}</p>
+        ))}
+      </div>
+    </>
   );
 };
 

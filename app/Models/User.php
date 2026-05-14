@@ -11,13 +11,17 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
+use Laravel\Sanctum\HasApiTokens;
 
 #[Fillable(['name', 'email', 'password'])]
 #[Hidden(['password', 'two_factor_secret', 'two_factor_recovery_codes', 'remember_token'])]
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable, TwoFactorAuthenticatable;
+    use HasFactory, Notifiable, TwoFactorAuthenticatable, HasApiTokens;
+
+    public $keyType = 'string';
+    public $incrementing = false;
 
     /**
      * Get the attributes that should be cast.
@@ -42,6 +46,11 @@ class User extends Authenticatable
     public function setUuid(): void
     {
         $this->attributes['id'] = (string) \Illuminate\Support\Str::uuid();
+    }
+
+    public function isSuperAdmin(): bool
+    {
+        return $this->is_superadmin;
     }
 
     protected static function boot(): void
